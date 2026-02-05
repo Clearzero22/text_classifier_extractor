@@ -2,3 +2,6 @@
 
 # Environment variables with secrets
 .env
+
+# Git worktrees
+.worktrees
