@@ -1,0 +1,4 @@
+/target
+
+# Environment variables with secrets
+.env
