@@ -3,6 +3,11 @@ use rig::{completion::Prompt, providers::openai};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
+mod models;
+mod agents;
+mod state;
+mod strategy;
+
 #[derive(Debug, Deserialize, Serialize, JsonSchema)]
 enum Sentiment {
     Positive,
