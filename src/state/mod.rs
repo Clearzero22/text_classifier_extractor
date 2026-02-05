@@ -2,4 +2,4 @@
 
 pub mod conversation;
 
-pub use conversation::{ConversationManager, ConversationState, EmotionTrend};
+pub use conversation::{ConversationManager, EmotionTrend};

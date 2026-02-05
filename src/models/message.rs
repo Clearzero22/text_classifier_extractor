@@ -1,4 +1,3 @@
-use serde_json;
 use super::super::SentimentClassification;
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
