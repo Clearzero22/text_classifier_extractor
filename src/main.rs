@@ -8,17 +8,17 @@ mod agents;
 mod state;
 mod strategy;
 
-#[derive(Debug, Deserialize, Serialize, JsonSchema)]
-enum Sentiment {
+#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]
+pub enum Sentiment {
     Positive,
     Negative,
     Neutral,
 }
 
-#[derive(Debug, Deserialize, Serialize, JsonSchema)]
-struct SentimentClassification {
-    sentiment: Sentiment,
-    confidence: f32,
+#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]
+pub struct SentimentClassification {
+    pub sentiment: Sentiment,
+    pub confidence: f32,
 }
 
 #[tokio::main]
