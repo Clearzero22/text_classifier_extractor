@@ -5,7 +5,6 @@ use crate::SentimentClassification;
 pub struct ConversationState {
     pub messages: Vec<Message>,
     pub emotion_history: Vec<SentimentClassification>,
-    pub started_at: i64,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -25,7 +24,6 @@ impl ConversationManager {
             state: ConversationState {
                 messages: Vec::new(),
                 emotion_history: Vec::new(),
-                started_at: chrono::Utc::now().timestamp(),
             },
         }
     }
@@ -155,5 +153,49 @@ mod tests {
         }
 
         assert_eq!(manager.get_recent_emotion_trend(), EmotionTrend::Improving);
+    }
+
+    #[test]
+    fn test_emotion_trend_declining() {
+        let mut manager = ConversationManager::new();
+        use crate::Sentiment;
+
+        // Start positive, end negative
+        for _ in 0..3 {
+            manager.update_emotion(SentimentClassification {
+                sentiment: Sentiment::Positive,
+                confidence: 0.8,
+            });
+        }
+        for _ in 0..3 {
+            manager.update_emotion(SentimentClassification {
+                sentiment: Sentiment::Negative,
+                confidence: 0.8,
+            });
+        }
+
+        assert_eq!(manager.get_recent_emotion_trend(), EmotionTrend::Declining);
+    }
+
+    #[test]
+    fn test_emotion_trend_empty_history() {
+        let manager = ConversationManager::new();
+
+        // Empty history should return Stable
+        assert_eq!(manager.get_recent_emotion_trend(), EmotionTrend::Stable);
+    }
+
+    #[test]
+    fn test_emotion_trend_single_emotion() {
+        let mut manager = ConversationManager::new();
+        use crate::Sentiment;
+
+        // Single emotion should return Stable
+        manager.update_emotion(SentimentClassification {
+            sentiment: Sentiment::Positive,
+            confidence: 0.8,
+        });
+
+        assert_eq!(manager.get_recent_emotion_trend(), EmotionTrend::Stable);
     }
 }
